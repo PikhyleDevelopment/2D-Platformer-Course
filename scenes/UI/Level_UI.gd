@@ -12,5 +12,5 @@ func _ready():
 
 func on_coin_total_changed(totalCoins, collectedCoins):
 	# Set the text of the level to display coin counter.
-	$MarginContainer/CoinLabel.text = str(collectedCoins, " | ", totalCoins)
+	$MarginContainer/HBoxContainer/CoinLabel.text = str(collectedCoins, " / ", totalCoins)
 	
