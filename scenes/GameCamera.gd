@@ -12,9 +12,9 @@ var yNoiseSampleVector = Vector2.DOWN
 var xNoiseSamplePosition = Vector2.ZERO
 var yNoiseSamplePosition = Vector2.ZERO
 var noiseSampleTravelRate = 500
-var maxShakeOffset = 6
+var maxShakeOffset = 10
 var currentShakePercentage = 0
-var shakeDecayPercentage = 3
+var shakeDecayPercentage = 2
 
 ## Functions
 func _ready():
