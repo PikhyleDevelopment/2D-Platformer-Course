@@ -10,6 +10,7 @@ signal died
 export(int, LAYERS_2D_PHYSICS) var dashHazardMask
 
 ## Variables
+var playerDeathScene = preload("res://scenes/PlayerDeath.tscn")
 var velocity = Vector2.ZERO
 var gravity = 1000
 var maxHorizontalSpeed = 140
@@ -165,6 +166,20 @@ func update_animation():
 		# Set the flip_h switch to true if we are moving right.
 		$AnimatedSprite.flip_h = true if moveVector.x > 0 else false
 
-func on_hazard_area_entered(_area2d):
-	$"/root/Helpers".apply_camera_shake(1)
+func kill():
+	# Instance the player death scene
+	var playerDeathInstance = playerDeathScene.instance()
+	# Add the player death instance as a child node of the player node.
+	get_parent().add_child_below_node(self, playerDeathInstance)
+	# Set the global_position of the player death to the player's global position
+	playerDeathInstance.global_position = global_position
+	# Also preserve the player's velocity. YEET
+	playerDeathInstance.velocity = velocity
+	# Emit the "died" signal.
 	emit_signal("died")
+
+func on_hazard_area_entered(_area2d):
+	# Apply camera shake to the death
+	$"/root/Helpers".apply_camera_shake(1)
+	call_deferred("kill")
+	

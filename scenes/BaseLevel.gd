@@ -17,8 +17,8 @@ var collectedCoins = 0
 func _ready():
 	# Get the spawn position from the player's global position.
 	# Then register the player.
-	spawnPosition = $Player.global_position
-	register_player($Player)
+	spawnPosition = $PlayerRoot/Player.global_position
+	register_player($PlayerRoot/Player)
 	
 	# Set the initial coin count and ready the flag win condition.
 	coin_total_changed(get_tree().get_nodes_in_group("coin").size())
@@ -42,7 +42,7 @@ func register_player(playerNode):
 func create_player():
 	# Get a new player instance and add the instance below the current player node
 	var playerInstance = playerScene.instance()
-	add_child_below_node(currentPlayerNode, playerInstance)
+	$PlayerRoot.add_child(playerInstance)
 	# Set the new players spawn position
 	playerInstance.global_position = spawnPosition
 	# Register the new player with the game.
@@ -52,6 +52,12 @@ func on_player_died():
 	# When the player has died, free the character from memory and create
 	# a new player.
 	currentPlayerNode.queue_free()
+	
+	# Create a '1' (one) second timer and then
+	# pause (yield) the function for the timer dureation.
+	var timer = get_tree().create_timer(1)
+	yield(timer, "timeout")
+	
 	create_player()
 
 func on_player_won():
