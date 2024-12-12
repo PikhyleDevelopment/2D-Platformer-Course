@@ -1,11 +1,13 @@
 extends Position2D
 
+## Enums
 enum Direction { RIGHT, LEFT }
 
+## Exports
 export(PackedScene) var enemyScene
 export(Direction) var startDirection
 
-
+## Global Variables
 var currentEnemyNode = null
 var spawnOnNextTick = false
 

@@ -29,11 +29,16 @@ func _process(delta):
 	global_position = lerp(targetPosition, global_position, pow(2, -15 * delta))
 	
 	if (currentShakePercentage > 0):
+		# If the current shake percentage is greater than 0, add to the 
+		# x and y noise sample position by the respective vector and 
+		# noise sample travel rate. Don't forget to include delta
 		xNoiseSamplePosition += xNoiseSampleVector * noiseSampleTravelRate * delta
 		yNoiseSamplePosition += yNoiseSampleVector * noiseSampleTravelRate * delta
 		var xSample = shakeNoise.get_noise_2d(xNoiseSamplePosition.x, xNoiseSamplePosition.y)
 		var ySample = shakeNoise.get_noise_2d(yNoiseSamplePosition.x, yNoiseSamplePosition.y)
 		
+		# Calculate offset as a product of a Vector2 of xSample and ySample,
+		# maxShakeOffset, and currentShakePercentage.
 		var calculatedOffset = Vector2(xSample, ySample) * maxShakeOffset * pow(currentShakePercentage, 2)
 		# Set the camera's offset to our calculatedOffset
 		offset = calculatedOffset

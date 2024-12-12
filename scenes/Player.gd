@@ -1,17 +1,16 @@
 extends KinematicBody2D
 
-# Enums
+## Enums
 enum State {NORMAL, DASHING}
 
-# Signals
+## Signals
 signal died
 
-# Exports
+## Exports
 export(int, LAYERS_2D_PHYSICS) var dashHazardMask
 
-# Variables
+## Variables
 var velocity = Vector2.ZERO
-
 var gravity = 1000
 var maxHorizontalSpeed = 140
 var maxDashSpeed = 500
@@ -21,21 +20,16 @@ var horizontalAcceleration = 2000
 var jumpSpeed = 360
 var jumpTerminationMultiplier = 4
 var defaultHazardMask = 0
-
 var hasDash = false
 var isStateNew = true
 var hasDoubleJump = false
-
 var currentState = State.NORMAL
 
-
-
-
+## Functions
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$HazardArea.connect("area_entered", self, "on_hazard_area_entered")
 	defaultHazardMask = $HazardArea.collision_mask
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -46,11 +40,10 @@ func _process(delta):
 		State.DASHING:
 			process_dash(delta)
 	isStateNew = false
-			
+
 func change_state(newState):
 	currentState = newState
 	isStateNew = true
-	
 
 func process_dash(delta):
 	if (isStateNew):
@@ -72,8 +65,7 @@ func process_dash(delta):
 	
 	if (abs(velocity.x) < minDashSpeed):
 		call_deferred("change_state", State.NORMAL)
-	
-	
+
 func process_normal(delta):
 	if (isStateNew):
 		$DashArea/CollisionShape2D.disabled = true
@@ -136,7 +128,7 @@ func process_normal(delta):
 		hasDash = false
 	
 	update_animation()
-	
+
 func get_movement_vector():
 		# Movement (refactor later)
 		var moveVector = Vector2.ZERO
@@ -148,7 +140,7 @@ func get_movement_vector():
 		# A fancy way to conditionally set a variable.
 		moveVector.y = -1 if Input.is_action_just_pressed("jump") else 0
 		return moveVector
-		
+
 func update_animation():
 	var moveVector = get_movement_vector()
 	
@@ -173,11 +165,6 @@ func update_animation():
 		# Set the flip_h switch to true if we are moving right.
 		$AnimatedSprite.flip_h = true if moveVector.x > 0 else false
 
-
 func on_hazard_area_entered(_area2d):
 	$"/root/Helpers".apply_camera_shake(1)
 	emit_signal("died")
-	
-	
-	
-	

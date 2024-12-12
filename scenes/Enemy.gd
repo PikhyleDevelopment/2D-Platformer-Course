@@ -1,11 +1,13 @@
 extends KinematicBody2D
 
+## Global Variables
 var maxSpeed = 25
 var velocity = Vector2.ZERO
 var direction = Vector2.ZERO 
 var gravity = 500
 var startDirection = Vector2.RIGHT
 
+## Functions
 func _ready():
 	direction = startDirection
 	$GoalDetector.connect("area_entered", self, "on_goal_entered")
