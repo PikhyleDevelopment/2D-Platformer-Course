@@ -2,11 +2,7 @@ extends Node
 
 export(Array, PackedScene) var levelScenes
 
-var currentLevelIndex = 0
-
-func _ready():
-	change_level(currentLevelIndex)
-	
+var currentLevelIndex = 0	
 
 func change_level(levelIndex):
 	currentLevelIndex = levelIndex
