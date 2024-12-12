@@ -8,5 +8,4 @@ func _ready():
 	
 func on_area_entered(_area2d):
 	emit_signal("player_won")
-	#DEBUG
-	print("player won!")
+
