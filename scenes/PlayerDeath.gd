@@ -12,4 +12,4 @@ func _process(delta):
 		# instead of '0' (zero) because the 2nd argument
 		# is of type Vector2. Setting to '0' caused a Vector2 
 		# to float conversion error.
-		velocity = lerp(Vector2.ZERO, velocity, pow(2, -10 * delta))
+		velocity = lerp(Vector2.ZERO, velocity, pow(2, -5 * delta))
