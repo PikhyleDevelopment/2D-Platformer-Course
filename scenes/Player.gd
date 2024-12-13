@@ -178,12 +178,13 @@ func kill():
 	isDying = true
 	# Instance the player death scene
 	var playerDeathInstance : Node = playerDeathScene.instance()
+	# Also preserve the player's velocity. YEET
+	playerDeathInstance.velocity = velocity
 	# Add the player death instance as a child node of the player node.
 	get_parent().add_child_below_node(self, playerDeathInstance)
 	# Set the global_position of the player death to the player's global position
 	playerDeathInstance.global_position = global_position
-	# Also preserve the player's velocity. YEET
-	playerDeathInstance.velocity = velocity
+	
 	# Emit the "died" signal.
 	emit_signal("died")
 

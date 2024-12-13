@@ -54,8 +54,10 @@ func on_player_died():
 	currentPlayerNode.queue_free()
 	
 	# Create a '1' (one) second timer and then
-	# pause (yield) the function for the timer dureation.
-	var timer : SceneTreeTimer = get_tree().create_timer(1)
+	# pause (yield) the function for the timer duration.
+	# Determines how long until we spawn a new player. 
+	# Lets us see more of the death animation as well.
+	var timer : SceneTreeTimer = get_tree().create_timer(1.5)
 	yield(timer, "timeout")
 	
 	create_player()

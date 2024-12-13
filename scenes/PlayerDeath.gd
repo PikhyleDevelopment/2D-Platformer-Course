@@ -4,6 +4,10 @@ extends KinematicBody2D
 var velocity : Vector2 = Vector2.ZERO
 var gravity : int = 1000
 
+func _ready():
+	if (velocity.x > 0):
+		$Visuals.scale = Vector2(-1, 1)
+
 ## Functions
 func _process(delta):
 	velocity.y += gravity * delta
