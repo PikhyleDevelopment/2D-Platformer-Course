@@ -1,11 +1,11 @@
 extends KinematicBody2D
 
 ## Global Variables
-var maxSpeed = 25
-var velocity = Vector2.ZERO
-var direction = Vector2.ZERO 
-var gravity = 500
-var startDirection = Vector2.RIGHT
+var maxSpeed : int = 25
+var velocity : Vector2 = Vector2.ZERO
+var direction : Vector2 = Vector2.ZERO 
+var gravity : int = 500
+var startDirection : Vector2 = Vector2.RIGHT
 
 ## Functions
 func _ready():

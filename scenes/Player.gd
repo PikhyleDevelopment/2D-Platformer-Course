@@ -7,25 +7,25 @@ enum State {NORMAL, DASHING}
 signal died
 
 ## Exports
-export(int, LAYERS_2D_PHYSICS) var dashHazardMask
+export(int, LAYERS_2D_PHYSICS) var dashHazardMask : int
 
 ## Variables
-var playerDeathScene = preload("res://scenes/PlayerDeath.tscn")
-var velocity = Vector2.ZERO
-var gravity = 1000
-var maxHorizontalSpeed = 140
-var maxDashSpeed = 500
-var minDashSpeed = 100
-var horizontalStopSpeed = -50
-var horizontalAcceleration = 2000
-var jumpSpeed = 360
-var jumpTerminationMultiplier = 4
-var defaultHazardMask = 0
-var hasDash = false
-var isStateNew = true
-var hasDoubleJump = false
-var isDying = false
-var currentState = State.NORMAL
+var playerDeathScene : Resource = preload("res://scenes/PlayerDeath.tscn")
+var velocity : Vector2 = Vector2.ZERO
+var gravity : int = 1000
+var maxHorizontalSpeed : int = 140
+var maxDashSpeed : int = 500
+var minDashSpeed : int = 100
+var horizontalStopSpeed : int = -50
+var horizontalAcceleration : int = 2000
+var jumpSpeed : int = 360
+var jumpTerminationMultiplier : int = 4
+var defaultHazardMask : int = 0
+var hasDash : bool = false
+var isStateNew : bool = true
+var hasDoubleJump : bool = false
+var isDying : bool = false
+var currentState : int = State.NORMAL
 
 ## Functions
 # Called when the node enters the scene tree for the first time.
@@ -43,7 +43,7 @@ func _process(delta):
 			process_dash(delta)
 	isStateNew = false
 
-func change_state(newState):
+func change_state(newState : int):
 	currentState = newState
 	isStateNew = true
 
@@ -72,7 +72,7 @@ func process_normal(delta):
 	if (isStateNew):
 		$DashArea/CollisionShape2D.disabled = true
 		$HazardArea.collision_mask = defaultHazardMask
-	var moveVector = get_movement_vector()
+	var moveVector : Vector2 = get_movement_vector()
 	
 	# Assign x velocity with acceleration
 	velocity.x += moveVector.x * horizontalAcceleration * delta
@@ -108,7 +108,7 @@ func process_normal(delta):
 		velocity.y += gravity * delta
 		
 		
-	var wasOnFloor = is_on_floor()
+	var wasOnFloor : bool = is_on_floor()
 	
 	# Use the KinematicBody2D.move_and_slide method
 	# to udpate velocity.
@@ -133,7 +133,7 @@ func process_normal(delta):
 
 func get_movement_vector():
 		# Movement (refactor later)
-		var moveVector = Vector2.ZERO
+		var moveVector : Vector2 = Vector2.ZERO
 		
 		# Will be 1 if moving right, -1 if moving left. If both inputs
 		# are active at the same time, they cancel each other out.
@@ -144,7 +144,7 @@ func get_movement_vector():
 		return moveVector
 
 func update_animation():
-	var moveVector = get_movement_vector()
+	var moveVector : Vector2 = get_movement_vector()
 	
 	# NOTE: is_on_floor is part of KinematicBody2D
 	if (!is_on_floor()):
@@ -177,7 +177,7 @@ func kill():
 	# If we made it here, we are dying.
 	isDying = true
 	# Instance the player death scene
-	var playerDeathInstance = playerDeathScene.instance()
+	var playerDeathInstance : Node = playerDeathScene.instance()
 	# Add the player death instance as a child node of the player node.
 	get_parent().add_child_below_node(self, playerDeathInstance)
 	# Set the global_position of the player death to the player's global position

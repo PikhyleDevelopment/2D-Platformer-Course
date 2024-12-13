@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 ## Global Variables
-var velocity = Vector2.ZERO
-var gravity = 1000
+var velocity : Vector2 = Vector2.ZERO
+var gravity : int = 1000
 
 ## Functions
 func _process(delta):

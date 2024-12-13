@@ -4,10 +4,10 @@ extends Node
 export(Array, PackedScene) var levelScenes
 
 ## Global Variables
-var currentLevelIndex = 0	
+var currentLevelIndex : int = 0	
 
 ## Functions
-func change_level(levelIndex):
+func change_level(levelIndex : int):
 	# Set our current index to the provided index
 	currentLevelIndex = levelIndex
 	

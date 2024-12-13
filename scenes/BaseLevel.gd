@@ -1,17 +1,17 @@
 extends Node
 
 ## Exports
-export(PackedScene) var levelCompleteScene
+export(PackedScene) var levelCompleteScene : PackedScene
 
 ## Signals
 signal coin_total_changed
 
 ## Global Variables
-var playerScene = preload("res://scenes/Player.tscn")
-var spawnPosition = Vector2.ZERO
-var currentPlayerNode = null
-var totalCoins = 0
-var collectedCoins = 0
+var playerScene : Resource = preload("res://scenes/Player.tscn")
+var spawnPosition : Vector2 = Vector2.ZERO
+var currentPlayerNode : Node = null
+var totalCoins : int = 0
+var collectedCoins : int = 0
 
 ## Functions
 func _ready():
@@ -29,19 +29,19 @@ func coin_collected():
 	collectedCoins += 1
 	emit_signal("coin_total_changed", totalCoins, collectedCoins)
 	
-func coin_total_changed(newTotal):
+func coin_total_changed(newTotal : int):
 	# Sets the total number of coins to the newTotal
 	totalCoins = newTotal
 	emit_signal("coin_total_changed", totalCoins, collectedCoins)
 	
-func register_player(playerNode):
+func register_player(playerNode : Node):
 	# Grabs the player node and register the call to on_player_died
 	currentPlayerNode = playerNode
 	currentPlayerNode.connect("died", self, "on_player_died", [], CONNECT_DEFERRED)
 	
 func create_player():
 	# Get a new player instance and add the instance below the current player node
-	var playerInstance = playerScene.instance()
+	var playerInstance : Node = playerScene.instance()
 	$PlayerRoot.add_child(playerInstance)
 	# Set the new players spawn position
 	playerInstance.global_position = spawnPosition
@@ -55,7 +55,7 @@ func on_player_died():
 	
 	# Create a '1' (one) second timer and then
 	# pause (yield) the function for the timer dureation.
-	var timer = get_tree().create_timer(1)
+	var timer : SceneTreeTimer = get_tree().create_timer(1)
 	yield(timer, "timeout")
 	
 	create_player()
@@ -64,6 +64,6 @@ func on_player_won():
 	# When the player has won, free the character from memory
 	currentPlayerNode.queue_free()
 	# Instance a new levelComplete Scene
-	var levelComplete = levelCompleteScene.instance()
+	var levelComplete : Node = levelCompleteScene.instance()
 	# Add the levelComplete scene as a child to the current scene root node.
 	add_child(levelComplete)

@@ -14,7 +14,7 @@ func on_area_entered(_area2d):
 	call_deferred("disable_pickup")
 	
 	# Grab the base level from the tree and call coin_collected
-	var baseLevel = get_tree().get_nodes_in_group("base_level")[0]
+	var baseLevel : Node = get_tree().get_nodes_in_group("base_level")[0]
 	baseLevel.coin_collected()
 	
 func disable_pickup():
