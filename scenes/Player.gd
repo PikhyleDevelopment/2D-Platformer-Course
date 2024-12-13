@@ -24,6 +24,7 @@ var defaultHazardMask = 0
 var hasDash = false
 var isStateNew = true
 var hasDoubleJump = false
+var isDying = false
 var currentState = State.NORMAL
 
 ## Functions
@@ -167,6 +168,14 @@ func update_animation():
 		$AnimatedSprite.flip_h = true if moveVector.x > 0 else false
 
 func kill():
+	# Check to see if we are dying already.
+	# This helps prevent a crash if we hit two 
+	# spike hitboxes at the same time.
+	if (isDying):
+		return
+		
+	# If we made it here, we are dying.
+	isDying = true
 	# Instance the player death scene
 	var playerDeathInstance = playerDeathScene.instance()
 	# Add the player death instance as a child node of the player node.

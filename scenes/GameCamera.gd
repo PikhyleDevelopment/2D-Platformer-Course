@@ -45,14 +45,21 @@ func _process(delta):
 		currentShakePercentage = clamp(currentShakePercentage - shakeDecayPercentage * delta, 0, 1)
 
 func acquire_target_position():
-	# Get the "player" ground fro the scene tree.
-	var players = get_tree().get_nodes_in_group("player")
-	if (players.size() > 0):
-		# we have at least one player
-		var player = players[0]
-		targetPosition = player.global_position
+	# Get the "player" from the scene tree.
+	var acquired = target_postition_from_group("player")
+	if (!acquired):
+		target_postition_from_group("player_death")
 
-func apply_shake(percentage):
+func target_postition_from_group(groupName : String):
+	var nodes = get_tree().get_nodes_in_group(groupName)
+	if (nodes.size() > 0):
+		# We have at least one node
+		var node = nodes[0]
+		targetPosition = node.global_position
+		return true
+	return false
+
+func apply_shake(percentage : float):
 	# Clamp the value between zero and one
 	currentShakePercentage = clamp(currentShakePercentage + percentage, 0, 1)
 	
