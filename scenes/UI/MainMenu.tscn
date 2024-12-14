@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://resources/theme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/UI/AnimatedButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/UI/MainMenu.gd" type="Script" id=3]
+[ext_resource path="res://resources/decorative_tileset.tres" type="TileSet" id=4]
+[ext_resource path="res://resources/tileset.tres" type="TileSet" id=5]
+[ext_resource path="res://scenes/Clouds.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/GameCamera.tscn" type="PackedScene" id=7]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="GameCamera" parent="Node2D" instance=ExtResource( 7 )]
+
+[node name="Clouds" parent="Node2D/GameCamera" instance=ExtResource( 6 )]
+
+[node name="TileMap" type="TileMap" parent="Node2D"]
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 18, 18 )
+format = 1
+tile_data = PoolIntArray( 65551, 2, 1, 65552, 2, 2, 65553, 2, 3, 131087, 2, 131073, 131088, 2, 131074, 131089, 2, 131075, 262145, 1, 0, 327680, 1, 0, 327681, 1, 65538, 327684, 1, 0, 327685, 1, 2, 327689, 1, 0, 327690, 1, 1, 327691, 1, 1, 327692, 1, 1, 327693, 1, 1, 327694, 1, 1, 327695, 1, 1, 327696, 1, 1, 327697, 1, 2, 393216, 1, 65536, 393217, 1, 65539, 393218, 1, 1, 393219, 1, 1, 393220, 1, 65537, 393221, 1, 65539, 393222, 1, 1, 393223, 1, 1, 393224, 1, 1, 393225, 1, 65538, 393229, 1, 131072, 393230, 1, 131073, 393231, 1, 4, 393232, 1, 3, 393233, 1, 131074, 458752, 1, 65536, 458753, 1, 65537, 458754, 1, 65538, 458756, 1, 131072, 458757, 1, 131073, 458758, 1, 131073, 458759, 1, 4, 458760, 1, 65537, 458761, 1, 65539, 458762, 1, 1, 458763, 1, 1, 458764, 1, 2, 458767, 1, 65536, 458768, 1, 65538, 524288, 1, 65536, 524289, 1, 65537, 524290, 1, 65539, 524291, 1, 2, 524295, 1, 65536, 524296, 1, 65537, 524297, 1, 65537, 524298, 1, 65537, 524299, 1, 65537, 524300, 1, 65539, 524301, 1, 1, 524302, 1, 1, 524303, 1, 65540, 524304, 1, 65539, 524305, 1, 2, 589824, 1, 131072, 589825, 1, 131073, 589826, 1, 131073, 589827, 1, 131073, 589828, 1, 1, 589829, 1, 1, 589830, 1, 1, 589831, 1, 131073, 589832, 1, 131073, 589833, 1, 131073, 589834, 1, 131073, 589835, 1, 131073, 589836, 1, 131073, 589837, 1, 131073, 589838, 1, 131073, 589839, 1, 131073, 589840, 1, 131073, 589841, 1, 131074 )
+
+[node name="DecorativeTileMap" type="TileMap" parent="Node2D"]
+tile_set = ExtResource( 4 )
+cell_size = Vector2( 18, 18 )
+format = 1
+tile_data = PoolIntArray( 65541, 6, 0, 65542, 6, 1, 65543, 6, 2, 131077, 6, 131072, 131078, 6, 131073, 131079, 6, 131074, 131081, 5, 0, 131082, 5, 0, 131083, 5, 0, 131086, 3, 1, 131088, 3, 1, 196609, 5, 0, 196610, 5, 0, 196611, 5, 0, 196614, 3, 1, 196618, 5, 65536, 196621, 3, 2, 196622, 3, 131072, 196624, 3, 65536, 262144, 7, 1, 262146, 5, 131072, 262148, 8, 0, 262149, 7, 1, 262150, 3, 65536, 262152, 5, 0, 262154, 5, 196608, 262155, 9, 0, 262156, 9, 0, 262157, 7, 1, 262158, 3, 131073, 262159, 7, 0, 262160, 3, 131073, 327682, 5, 196608, 327683, 7, 1, 327686, 3, 131073, 327687, 7, 1, 327688, 5, 196608, 393226, 5, 0, 393227, 5, 0, 524292, 5, 0, 524293, 5, 0 )
+
+[node name="ForegroundTileMap" type="TileMap" parent="Node2D"]
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 18, 18 )
+format = 1
+tile_data = PoolIntArray( 65549, 2, 1, 65550, 2, 2, 65551, 2, 3, 131077, 2, 1, 131078, 2, 2, 131079, 2, 3, 131085, 2, 131073, 131086, 2, 131074, 131087, 2, 131075, 196613, 2, 131073, 196614, 2, 131074, 196615, 2, 131075 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+margin_left = 96.0
+margin_top = 40.0
+margin_right = 224.0
+margin_bottom = 140.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
+margin_right = 128.0
+margin_bottom = 100.0
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 120.0
+margin_bottom = 92.0
+rect_min_size = Vector2( 112, 0 )
+custom_constants/separation = 6
+
+[node name="PlayButton" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
+margin_left = 8.0
+margin_right = 104.0
+text = "PLAY"
+
+[node name="OptionsButton" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
+margin_left = 8.0
+margin_top = 30.0
+margin_right = 104.0
+margin_bottom = 54.0
+text = "OPTIONS"
+
+[node name="QuitButton" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
+margin_left = 8.0
+margin_top = 60.0
+margin_right = 104.0
+margin_bottom = 84.0
+text = "QUIT"

@@ -11,13 +11,14 @@ config_version=4
 [application]
 
 config/name="2D Platformer Course"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/UI/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 LevelManager="*res://scenes/LevelManager.tscn"
 Helpers="*res://scripts/helpers.gd"
+ScreenTransitionManager="*res://scenes/ScreenTransitionManager.tscn"
 
 [display]
 

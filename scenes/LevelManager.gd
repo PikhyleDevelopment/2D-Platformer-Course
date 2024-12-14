@@ -18,7 +18,7 @@ func change_level(levelIndex : int):
 	# Call the scene trees change_scene method, setting the parameter
 	# to the full path of the level to change to as defined in the exported
 	# variable levelScenes
-	get_tree().change_scene(levelScenes[currentLevelIndex].resource_path)
+	$"/root/ScreenTransitionManager".transition_to_scene(levelScenes[currentLevelIndex].resource_path)
 
 func increment_level():
 	# Increment the current level index.
