@@ -135,7 +135,7 @@ func process_normal(delta):
 		# leaving the floor, like walking off the edge of a block.
 		$CoyoteTimer.start()
 	
-	if (!wasOnFloor && is_on_floor()):
+	if (!wasOnFloor && is_on_floor() && !isStateNew):
 		spawn_footstep_particles(1.5)
 	
 	if (is_on_floor()):
