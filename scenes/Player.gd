@@ -49,10 +49,17 @@ func change_state(newState : int):
 
 func process_dash(delta):
 	if (isStateNew):
+		# Enable dash particles
+		$DashParticles.emitting = true
+		# Apply camera shake
 		$"/root/Helpers".apply_camera_shake(0.5)
-		$DashArea/CollisionShape2D.disabled = false
+		# Enable the dash collision area
+		$DashArea/DashCollision.disabled = false
+		# Play the jump animation
 		$AnimatedSprite.play("jump")
+		# Apply the mask
 		$HazardArea.collision_mask = dashHazardMask
+		
 		var moveVector = get_movement_vector()
 		var velocityMod = 1
 		if (moveVector.x != 0):
@@ -70,8 +77,13 @@ func process_dash(delta):
 
 func process_normal(delta):
 	if (isStateNew):
-		$DashArea/CollisionShape2D.disabled = true
+		# Disable particle emission
+		$DashParticles.emitting = false
+		# Disable the dash collision area
+		$DashArea/DashCollision.disabled = true
+		# Apply the default hazard mask
 		$HazardArea.collision_mask = defaultHazardMask
+		
 	var moveVector : Vector2 = get_movement_vector()
 	
 	# Assign x velocity with acceleration
