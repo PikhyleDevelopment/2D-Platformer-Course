@@ -182,3 +182,6 @@ rotation = 1.57079
 [node name="Spikes15" parent="Hazards" index="27" instance=ExtResource( 4 )]
 position = Vector2( -613, -27 )
 rotation = 1.57079
+
+[node name="PlayerRoot" parent="." index="7"]
+position = Vector2( 0, -50 )

@@ -11,6 +11,7 @@ export(int, LAYERS_2D_PHYSICS) var dashHazardMask : int
 
 ## Variables
 var playerDeathScene : Resource = preload("res://scenes/PlayerDeath.tscn")
+var footstepParticles : Resource = preload("res://scenes/FootstepParticles.tscn")
 var velocity : Vector2 = Vector2.ZERO
 var gravity : int = 1000
 var maxHorizontalSpeed : int = 140
@@ -31,6 +32,7 @@ var currentState : int = State.NORMAL
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$HazardArea.connect("area_entered", self, "on_hazard_area_entered")
+	$AnimatedSprite.connect("frame_changed", self, "on_animated_sprite_frame_change")
 	defaultHazardMask = $HazardArea.collision_mask
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,7 +47,7 @@ func _process(delta):
 
 func change_state(newState : int):
 	currentState = newState
-	isStateNew = true
+	isStateNew = true	
 
 func process_dash(delta):
 	if (isStateNew):
@@ -133,6 +135,9 @@ func process_normal(delta):
 		# leaving the floor, like walking off the edge of a block.
 		$CoyoteTimer.start()
 	
+	if (!wasOnFloor && is_on_floor()):
+		spawn_footstep_particles(1.5)
+	
 	if (is_on_floor()):
 		hasDoubleJump = true
 		hasDash = true
@@ -199,9 +204,27 @@ func kill():
 	
 	# Emit the "died" signal.
 	emit_signal("died")
+	
+func spawn_footstep_particles(scale = 1):
+	# Create an instance of the FootstepParticles
+	var footstep : Node = footstepParticles.instance()
+	# Add the footstep particles as a child node
+	get_parent().add_child(footstep)
+	# Set the scale of the particles.
+	footstep.scale = Vector2.ONE * scale
+	# Set the footstep particles global position equal to
+	# the player's global position.
+	footstep.global_position = global_position
 
 func on_hazard_area_entered(_area2d):
 	# Apply camera shake to the death
 	$"/root/Helpers".apply_camera_shake(1)
 	call_deferred("kill")
+	
+func on_animated_sprite_frame_change():
+	# If we are in the run animation and on frame 0 (when the feet touch the
+	# ground), play our footstep particles.
+	if ($AnimatedSprite.animation == "run" && $AnimatedSprite.frame == 0):
+		spawn_footstep_particles()
+			
 	
