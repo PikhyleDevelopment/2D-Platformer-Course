@@ -28,7 +28,7 @@ text = "Hold SPACE to jump higher."
 position = Vector2( -898, -88 )
 
 [node name="Coin4" parent="Collectables" index="0" instance=ExtResource( 5 )]
-position = Vector2( -122, -63 )
+position = Vector2( -100, -42 )
 
 [node name="Coin7" parent="Collectables" index="1" instance=ExtResource( 5 )]
 position = Vector2( -299, -81 )
