@@ -5,6 +5,8 @@ onready var continueButton : Button = $MarginContainer/PanelContainer/MarginCont
 onready var optionsButton : Button = $MarginContainer/PanelContainer/MarginContainer/VBoxContainer/OptionsButton
 onready var quitButton : Button = $MarginContainer/PanelContainer/MarginContainer/VBoxContainer/QuitButton
 
+var optionsMenuScene : Resource = preload("res://scenes/UI/OptionsMenu.tscn")
+
 ## Functions
 func _ready():
 	# Add button connections
@@ -33,7 +35,14 @@ func on_continue_pressed():
 	unpause()
 	
 func on_options_pressed():
-	pass
+	var optionsMenuInstance : Node = optionsMenuScene.instance()
+	add_child(optionsMenuInstance)
+	optionsMenuInstance.connect("back_pressed", self, "on_options_back_pressed")
+	$MarginContainer.visible = false
+	
+func on_options_back_pressed():
+	$MarginContainer.visible = true
+	$OptionsMenu.queue_free()
 	
 func on_quit_pressed():
 	# When we quit to menu, we just transition to that scene and 
