@@ -24,3 +24,7 @@ func change_level(levelIndex : int):
 func increment_level():
 	# Increment the current level index.
 	change_level(currentLevelIndex + 1)
+
+func restart_level():
+	# Restart the current level
+	change_level(currentLevelIndex)

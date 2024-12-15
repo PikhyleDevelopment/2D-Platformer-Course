@@ -71,8 +71,7 @@ func on_player_died():
 	create_player()
 
 func on_player_won():
-	# When the player has won, free the character from memory
-	currentPlayerNode.queue_free()
+	currentPlayerNode.disable_player_input()
 	# Instance a new levelComplete Scene
 	var levelComplete : Node = levelCompleteScene.instance()
 	# Add the levelComplete scene as a child to the current scene root node.
