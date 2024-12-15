@@ -9,6 +9,7 @@ func _ready():
 func on_area_entered(_area2d):
 	# remove the coin from the game.
 	$AnimationPlayer.play("pickup")
+	
 	# Safe way to change physics related options.
 	# On last frame, call the disable_pickup function.
 	call_deferred("disable_pickup")
@@ -16,6 +17,8 @@ func on_area_entered(_area2d):
 	# Grab the base level from the tree and call coin_collected
 	var baseLevel : Node = get_tree().get_nodes_in_group("base_level")[0]
 	baseLevel.coin_collected()
+	$RandomAudioStreamPlayer.play()
+	$RandomAudioStreamPlayer2.play()
 	
 func disable_pickup():
 	# Disables the CollisionShape2D so the object can no

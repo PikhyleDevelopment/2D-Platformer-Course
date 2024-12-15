@@ -53,6 +53,7 @@ func change_state(newState : int):
 
 func process_dash(delta):
 	if (isStateNew):
+		$DashAudioPlayer.play()
 		# Enable dash particles
 		$DashParticles.emitting = true
 		# Apply camera shake
@@ -225,6 +226,8 @@ func spawn_footstep_particles(scale = 1):
 	# Set the footstep particles global position equal to
 	# the player's global position.
 	footstep.global_position = global_position
+	# Play the footstep audio
+	$FootstepAudioPlayer.play()
 	
 func disable_player_input():
 	change_state(State.INPUT_DISABLED)
