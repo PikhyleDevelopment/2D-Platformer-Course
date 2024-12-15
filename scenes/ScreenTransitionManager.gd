@@ -9,3 +9,6 @@ func transition_to_scene(scenePath : String):
 	add_child(screenTransition)
 	yield(screenTransition, "screen_covered")
 	get_tree().change_scene(scenePath)
+
+func transition_to_menu():
+	transition_to_scene("res://scenes/UI/MainMenu.tscn")

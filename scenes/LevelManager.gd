@@ -13,12 +13,13 @@ func change_level(levelIndex : int):
 	
 	if (currentLevelIndex >= levelScenes.size()):
 		# If our index is the size of levelScenes or larger,
-		# we are out of bounds and need to reset to 0
-		currentLevelIndex = 0
-	# Call the scene trees change_scene method, setting the parameter
-	# to the full path of the level to change to as defined in the exported
-	# variable levelScenes
-	$"/root/ScreenTransitionManager".transition_to_scene(levelScenes[currentLevelIndex].resource_path)
+		# we have completed the game.
+		$"/root/ScreenTransitionManager".transition_to_scene("res://scenes/UI/GameComplete.tscn")
+	else:
+		# Call the scene trees change_scene method, setting the parameter
+		# to the full path of the level to change to as defined in the exported
+		# variable levelScenes
+		$"/root/ScreenTransitionManager".transition_to_scene(levelScenes[currentLevelIndex].resource_path)
 
 func increment_level():
 	# Increment the current level index.

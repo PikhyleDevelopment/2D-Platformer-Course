@@ -8,6 +8,7 @@ signal coin_total_changed
 
 ## Global Variables
 var playerScene : Resource = preload("res://scenes/Player.tscn")
+var pauseScene : Resource = preload("res://scenes/UI/PauseMenu.tscn")
 var spawnPosition : Vector2 = Vector2.ZERO
 var currentPlayerNode : Node = null
 var totalCoins : int = 0
@@ -23,6 +24,13 @@ func _ready():
 	# Set the initial coin count and ready the flag win condition.
 	coin_total_changed(get_tree().get_nodes_in_group("coin").size())
 	$Flag.connect("player_won", self, "on_player_won")
+	
+func _unhandled_input(event):
+	# Handle the pause action (defined in project settings)
+	# Adds a PauseMenu to the scene as a child node
+	if (event.is_action_pressed("pause")):
+		var pauseInstance : Node = pauseScene.instance()
+		add_child(pauseInstance)
 	
 func coin_collected():
 	# Increments the coins collected
