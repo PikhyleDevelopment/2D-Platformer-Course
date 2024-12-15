@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=5 format=2]
+[gd_resource type="AudioBusLayout" load_steps=4 format=2]
 
 [sub_resource type="AudioEffectHighPassFilter" id=1]
 resource_name = "HighPassFilter"
@@ -14,11 +14,6 @@ hipass = 0.2
 [sub_resource type="AudioEffectPitchShift" id=3]
 resource_name = "PitchShift"
 pitch_scale = 1.2
-
-[sub_resource type="AudioEffectPhaser" id=4]
-resource_name = "Phaser"
-rate_hz = 20.0
-feedback = 0.6
 
 [resource]
 bus/1/name = "SFX"
@@ -51,8 +46,6 @@ bus/4/volume_db = 0.0
 bus/4/send = "SFX"
 bus/4/effect/0/effect = SubResource( 3 )
 bus/4/effect/0/enabled = true
-bus/4/effect/1/effect = SubResource( 4 )
-bus/4/effect/1/enabled = true
 bus/5/name = "Music"
 bus/5/solo = false
 bus/5/mute = false
