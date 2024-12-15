@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends HBoxContainer
 
 ## Functions
 func _ready():
@@ -9,8 +9,11 @@ func _ready():
 	if (baseLevels.size() > 0):
 		# Connect to the coin_total_changed signal
 		baseLevels[0].connect("coin_total_changed", self, "on_coin_total_changed")
+		update_display(baseLevels[0].totalCoins, baseLevels[0].collectedCoins)
 		
-func on_coin_total_changed(totalCoins, collectedCoins):
+func update_display(totalCoins : int, collectedCoins : int):
 	# Set the text of the level to display coin counter.
-	$MarginContainer/HBoxContainer/CoinLabel.text = str(collectedCoins, " / ", totalCoins)
+	$CoinLabel.text = str(collectedCoins, "/", totalCoins)
 	
+func on_coin_total_changed(totalCoins, collectedCoins):
+	update_display(totalCoins, collectedCoins)
