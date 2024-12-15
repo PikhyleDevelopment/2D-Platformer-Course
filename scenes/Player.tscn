@@ -85,42 +85,52 @@ numberToPlay = 4
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 8 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 9 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 7 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 6 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 5 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 14 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer7" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 11 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer8" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 12 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer9" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 10 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="AudioStreamPlayer10" type="AudioStreamPlayer" parent="FootstepAudioPlayer"]
 stream = ExtResource( 13 )
+volume_db = 5.0
 bus = "Footsteps"
 
 [node name="DashAudioPlayer" parent="." instance=ExtResource( 4 )]

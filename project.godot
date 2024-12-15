@@ -20,6 +20,7 @@ LevelManager="*res://scenes/LevelManager.tscn"
 Helpers="*res://scripts/helpers.gd"
 ScreenTransitionManager="*res://scenes/ScreenTransitionManager.tscn"
 MouseCursor="*res://scenes/UI/MouseCursor.tscn"
+MusicPlayer="*res://scenes/MusicPlayer.tscn"
 
 [display]
 
