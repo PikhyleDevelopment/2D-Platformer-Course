@@ -7,6 +7,9 @@ var gravity : int = 1000
 func _ready():
 	if (velocity.x > 0):
 		$Visuals.scale = Vector2(-1, 1)
+	$DeathSoundPlayer.play()
+	$DeathSoundPlayer2.play()
+	$DeathSoundPlayer3.play()
 
 ## Functions
 func _process(delta):
@@ -18,3 +21,4 @@ func _process(delta):
 		# is of type Vector2. Setting to '0' caused a Vector2 
 		# to float conversion error.
 		velocity = lerp(Vector2.ZERO, velocity, pow(2, -5 * delta))
+ 

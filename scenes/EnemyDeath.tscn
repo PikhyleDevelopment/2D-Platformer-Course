@@ -1,6 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/enemy/character_0016.png" type="Texture" id=1]
+[ext_resource path="res://assets/sounds/impactMetal_heavy_003.ogg" type="AudioStream" id=2]
+[ext_resource path="res://assets/sounds/impactMetal_heavy_004.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/sounds/impactMining_000.ogg" type="AudioStream" id=4]
+[ext_resource path="res://assets/sounds/impactMetal_heavy_001.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/impactMetal_heavy_002.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/sounds/impactMetal_heavy_000.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/sounds/impactMining_002.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/sounds/impactMining_001.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/sounds/impactMining_004.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/sounds/impactMining_003.ogg" type="AudioStream" id=11]
+[ext_resource path="res://scenes/Util/RandomAudioStreamPlayer.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/Util/RandomAudioStreamPlayer.gd" type="Script" id=13]
+[ext_resource path="res://scenes/EnemyDeath.gd" type="Script" id=14]
 
 [sub_resource type="Animation" id=2]
 resource_name = "death"
@@ -52,10 +65,59 @@ orbit_velocity_random = 0.0
 scale_curve = SubResource( 4 )
 
 [node name="EnemyDeath" type="Node2D"]
+script = ExtResource( 14 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "death"
 anims/death = SubResource( 2 )
+
+[node name="DeathSoundPlayer" type="Node" parent="." instance=ExtResource( 12 )]
+script = ExtResource( 13 )
+numberToPlay = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="DeathSoundPlayer"]
+stream = ExtResource( 7 )
+bus = "SFX"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="DeathSoundPlayer"]
+stream = ExtResource( 5 )
+bus = "SFX"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="DeathSoundPlayer"]
+stream = ExtResource( 6 )
+bus = "SFX"
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="DeathSoundPlayer"]
+stream = ExtResource( 2 )
+bus = "SFX"
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="DeathSoundPlayer"]
+stream = ExtResource( 3 )
+bus = "SFX"
+
+[node name="DeathSoundPlayer2" type="Node" parent="." instance=ExtResource( 12 )]
+script = ExtResource( 13 )
+numberToPlay = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="DeathSoundPlayer2"]
+stream = ExtResource( 4 )
+bus = "SFX"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="DeathSoundPlayer2"]
+stream = ExtResource( 9 )
+bus = "SFX"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="DeathSoundPlayer2"]
+stream = ExtResource( 8 )
+bus = "SFX"
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="DeathSoundPlayer2"]
+stream = ExtResource( 11 )
+bus = "SFX"
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="DeathSoundPlayer2"]
+stream = ExtResource( 10 )
+bus = "SFX"
 
 [node name="Particles2D" type="Particles2D" parent="."]
 position = Vector2( 0, -12 )

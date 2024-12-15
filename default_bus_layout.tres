@@ -1,0 +1,42 @@
+[gd_resource type="AudioBusLayout" load_steps=3 format=2]
+
+[sub_resource type="AudioEffectHighPassFilter" id=1]
+resource_name = "HighPassFilter"
+cutoff_hz = 3000.0
+resonance = 0.25
+
+[sub_resource type="AudioEffectReverb" id=2]
+resource_name = "Reverb"
+room_size = 0.09
+damping = 0.2
+hipass = 0.2
+
+[resource]
+bus/1/name = "SFX"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = "Master"
+bus/2/name = "Footsteps"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = "SFX"
+bus/2/effect/0/effect = SubResource( 1 )
+bus/2/effect/0/enabled = true
+bus/3/name = "PlayerDeath"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = "SFX"
+bus/3/effect/0/effect = SubResource( 2 )
+bus/3/effect/0/enabled = true
+bus/4/name = "Music"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 0.0
+bus/4/send = "Master"
