@@ -53,6 +53,7 @@ func change_state(newState : int):
 
 func process_dash(delta):
 	if (isStateNew):
+		$DashAudioPlayer.play()
 		# Enable dash particles
 		$DashParticles.emitting = true
 		# Apply camera shake
