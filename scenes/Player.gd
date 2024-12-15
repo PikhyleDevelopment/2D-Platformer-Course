@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 ## Enums
-enum State {NORMAL, DASHING}
+enum State {NORMAL, DASHING, INPUT_DISABLED}
 
 ## Signals
 signal died
@@ -43,6 +43,8 @@ func _process(delta):
 			process_normal(delta)
 		State.DASHING:
 			process_dash(delta)
+		State.INPUT_DISABLED:
+			process_input_disabled(delta)
 	isStateNew = false
 
 func change_state(newState : int):
@@ -76,6 +78,14 @@ func process_dash(delta):
 	
 	if (abs(velocity.x) < minDashSpeed):
 		call_deferred("change_state", State.NORMAL)
+		
+func process_input_disabled(delta):
+	if (isStateNew):
+		$AnimatedSprite.play("idle")
+	velocity.x = lerp(0, velocity.x, pow(2, horizontalStopSpeed * delta))
+	velocity.y += gravity * delta
+	velocity = move_and_slide(velocity, Vector2.UP)
+	
 
 func process_normal(delta):
 	if (isStateNew):
@@ -215,6 +225,9 @@ func spawn_footstep_particles(scale = 1):
 	# Set the footstep particles global position equal to
 	# the player's global position.
 	footstep.global_position = global_position
+	
+func disable_player_input():
+	change_state(State.INPUT_DISABLED)
 
 func on_hazard_area_entered(_area2d):
 	# Apply camera shake to the death
