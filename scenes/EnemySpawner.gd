@@ -1,13 +1,15 @@
 extends Position2D
 
+## Enums
 enum Direction { RIGHT, LEFT }
 
-export(PackedScene) var enemyScene
+## Exports
+export(PackedScene) var enemyScene : PackedScene
 export(Direction) var startDirection
 
-
-var currentEnemyNode = null
-var spawnOnNextTick = false
+## Global Variables
+var currentEnemyNode : Node = null
+var spawnOnNextTick : bool = false
 
 func _ready():
 	$SpawnTimer.connect("timeout", self, "on_spawn_timer_timeout")

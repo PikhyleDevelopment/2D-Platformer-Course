@@ -1,41 +1,39 @@
 extends KinematicBody2D
 
-# Enums
+## Enums
 enum State {NORMAL, DASHING}
 
-# Signals
+## Signals
 signal died
 
-# Exports
-export(int, LAYERS_2D_PHYSICS) var dashHazardMask
+## Exports
+export(int, LAYERS_2D_PHYSICS) var dashHazardMask : int
 
-# Variables
-var velocity = Vector2.ZERO
+## Variables
+var playerDeathScene : Resource = preload("res://scenes/PlayerDeath.tscn")
+var footstepParticles : Resource = preload("res://scenes/FootstepParticles.tscn")
+var velocity : Vector2 = Vector2.ZERO
+var gravity : int = 1000
+var maxHorizontalSpeed : int = 140
+var maxDashSpeed : int = 500
+var minDashSpeed : int = 100
+var horizontalStopSpeed : int = -50
+var horizontalAcceleration : int = 2000
+var jumpSpeed : int = 360
+var jumpTerminationMultiplier : int = 4
+var defaultHazardMask : int = 0
+var hasDash : bool = false
+var isStateNew : bool = true
+var hasDoubleJump : bool = false
+var isDying : bool = false
+var currentState : int = State.NORMAL
 
-var gravity = 1000
-var maxHorizontalSpeed = 140
-var maxDashSpeed = 500
-var minDashSpeed = 100
-var horizontalStopSpeed = -50
-var horizontalAcceleration = 2000
-var jumpSpeed = 360
-var jumpTerminationMultiplier = 4
-var defaultHazardMask = 0
-
-var hasDash = false
-var isStateNew = true
-var hasDoubleJump = false
-
-var currentState = State.NORMAL
-
-
-
-
+## Functions
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$HazardArea.connect("area_entered", self, "on_hazard_area_entered")
+	$AnimatedSprite.connect("frame_changed", self, "on_animated_sprite_frame_change")
 	defaultHazardMask = $HazardArea.collision_mask
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -46,17 +44,24 @@ func _process(delta):
 		State.DASHING:
 			process_dash(delta)
 	isStateNew = false
-			
-func change_state(newState):
+
+func change_state(newState : int):
 	currentState = newState
-	isStateNew = true
-	
+	isStateNew = true	
 
 func process_dash(delta):
 	if (isStateNew):
-		$DashArea/CollisionShape2D.disabled = false
+		# Enable dash particles
+		$DashParticles.emitting = true
+		# Apply camera shake
+		$"/root/Helpers".apply_camera_shake(0.5)
+		# Enable the dash collision area
+		$DashArea/DashCollision.disabled = false
+		# Play the jump animation
 		$AnimatedSprite.play("jump")
+		# Apply the mask
 		$HazardArea.collision_mask = dashHazardMask
+		
 		var moveVector = get_movement_vector()
 		var velocityMod = 1
 		if (moveVector.x != 0):
@@ -71,13 +76,17 @@ func process_dash(delta):
 	
 	if (abs(velocity.x) < minDashSpeed):
 		call_deferred("change_state", State.NORMAL)
-	
-	
+
 func process_normal(delta):
 	if (isStateNew):
-		$DashArea/CollisionShape2D.disabled = true
+		# Disable particle emission
+		$DashParticles.emitting = false
+		# Disable the dash collision area
+		$DashArea/DashCollision.disabled = true
+		# Apply the default hazard mask
 		$HazardArea.collision_mask = defaultHazardMask
-	var moveVector = get_movement_vector()
+		
+	var moveVector : Vector2 = get_movement_vector()
 	
 	# Assign x velocity with acceleration
 	velocity.x += moveVector.x * horizontalAcceleration * delta
@@ -94,8 +103,11 @@ func process_normal(delta):
 	# assign velocity Y axis.
 	if (moveVector.y < 0 && (is_on_floor() || !$CoyoteTimer.is_stopped() || hasDoubleJump)):
 		velocity.y = moveVector.y * jumpSpeed
+		# Apply camera shake using AutoLoad
+		$"/root/Helpers".apply_camera_shake(0.5)
 		
 		if (!is_on_floor() && $CoyoteTimer.is_stopped()):
+			$"/root/Helpers".apply_camera_shake(0.6)
 			hasDoubleJump = false
 			
 		$CoyoteTimer.stop()
@@ -110,7 +122,7 @@ func process_normal(delta):
 		velocity.y += gravity * delta
 		
 		
-	var wasOnFloor = is_on_floor()
+	var wasOnFloor : bool = is_on_floor()
 	
 	# Use the KinematicBody2D.move_and_slide method
 	# to udpate velocity.
@@ -123,6 +135,9 @@ func process_normal(delta):
 		# leaving the floor, like walking off the edge of a block.
 		$CoyoteTimer.start()
 	
+	if (!wasOnFloor && is_on_floor() && !isStateNew):
+		spawn_footstep_particles(1.5)
+	
 	if (is_on_floor()):
 		hasDoubleJump = true
 		hasDash = true
@@ -132,10 +147,10 @@ func process_normal(delta):
 		hasDash = false
 	
 	update_animation()
-	
+
 func get_movement_vector():
 		# Movement (refactor later)
-		var moveVector = Vector2.ZERO
+		var moveVector : Vector2 = Vector2.ZERO
 		
 		# Will be 1 if moving right, -1 if moving left. If both inputs
 		# are active at the same time, they cancel each other out.
@@ -144,9 +159,9 @@ func get_movement_vector():
 		# A fancy way to conditionally set a variable.
 		moveVector.y = -1 if Input.is_action_just_pressed("jump") else 0
 		return moveVector
-		
+
 func update_animation():
-	var moveVector = get_movement_vector()
+	var moveVector : Vector2 = get_movement_vector()
 	
 	# NOTE: is_on_floor is part of KinematicBody2D
 	if (!is_on_floor()):
@@ -169,10 +184,47 @@ func update_animation():
 		# Set the flip_h switch to true if we are moving right.
 		$AnimatedSprite.flip_h = true if moveVector.x > 0 else false
 
-
-func on_hazard_area_entered(_area2d):
+func kill():
+	# Check to see if we are dying already.
+	# This helps prevent a crash if we hit two 
+	# spike hitboxes at the same time.
+	if (isDying):
+		return
+		
+	# If we made it here, we are dying.
+	isDying = true
+	# Instance the player death scene
+	var playerDeathInstance : Node = playerDeathScene.instance()
+	# Also preserve the player's velocity. YEET
+	playerDeathInstance.velocity = velocity
+	# Add the player death instance as a child node of the player node.
+	get_parent().add_child_below_node(self, playerDeathInstance)
+	# Set the global_position of the player death to the player's global position
+	playerDeathInstance.global_position = global_position
+	
+	# Emit the "died" signal.
 	emit_signal("died")
 	
+func spawn_footstep_particles(scale = 1):
+	# Create an instance of the FootstepParticles
+	var footstep : Node = footstepParticles.instance()
+	# Add the footstep particles as a child node
+	get_parent().add_child(footstep)
+	# Set the scale of the particles.
+	footstep.scale = Vector2.ONE * scale
+	# Set the footstep particles global position equal to
+	# the player's global position.
+	footstep.global_position = global_position
+
+func on_hazard_area_entered(_area2d):
+	# Apply camera shake to the death
+	$"/root/Helpers".apply_camera_shake(1)
+	call_deferred("kill")
 	
-	
+func on_animated_sprite_frame_change():
+	# If we are in the run animation and on frame 0 (when the feet touch the
+	# ground), play our footstep particles.
+	if ($AnimatedSprite.animation == "run" && $AnimatedSprite.frame == 0):
+		spawn_footstep_particles()
+			
 	
